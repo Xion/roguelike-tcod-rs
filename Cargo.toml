@@ -1,0 +1,8 @@
+[package]
+name = "roguelike"
+version = "0.1.0"
+authors = ["Jakub Hlusička <jakub.hlusicka@email.cz>"]
+
+[dependencies]
+tcod = "0.9"
+nalgebra = "0.8.2"
