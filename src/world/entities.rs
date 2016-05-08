@@ -1,7 +1,6 @@
-extern crate nalgebra as na;
-
 use tcod::input::{Key, KeyCode};
-use self::na::Point2;
+use nalgebra::Point2;
+
 use renderer::Renderer;
 
 pub trait Entity {
@@ -18,23 +17,12 @@ pub struct Player {
 impl Player {
     pub fn new() -> Player {
         Player {
-            last_keypress: Key {
-                code: KeyCode::NoKey,
-                printable: ' ',
-                pressed: false,
-                left_alt: false,
-                left_ctrl: false,
-                right_alt: false,
-                right_ctrl: false,
-                shift: false,
-                alt: false,
-                ctrl: false,
-            },
+            last_keypress: Key::default(),
             location: Point2::new(0, 0),
         }
     }
 
-    pub fn with_location(&mut self, location: &Point2<i64>) {
+    pub fn set_location(&mut self, location: &Point2<i64>) {
         self.location.x = location.x;
         self.location.y = location.y;
     }

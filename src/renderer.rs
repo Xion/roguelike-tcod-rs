@@ -1,11 +1,9 @@
-extern crate nalgebra as na;
-
-use tcod::console::{Root, BackgroundFlag};
-use tcod::Console;
-use self::na::Point2;
 use std::rc::Rc;
 use std::cell::RefCell;
-use std::ops::{Deref, DerefMut};
+
+use nalgebra::Point2;
+use tcod::console::{Root, BackgroundFlag};
+use tcod::Console;
 
 pub trait Renderer {
     fn clear(&mut self);
@@ -31,8 +29,8 @@ impl RendererImpl {
         let root = self.root.borrow();
         let relative = Point2::new(point.x - self.viewport_center.x,
                                  point.y - self.viewport_center.y);
-        let result = Point2::new(relative.x + root.deref().width() as i64 / 2,
-                                 relative.y + root.deref().height() as i64 / 2);
+        let result = Point2::new(relative.x + root.width() as i64 / 2,
+                                 relative.y + root.height() as i64 / 2);
         println!("{:?}", result);
 
         match self.point_is_inside(result) {
@@ -42,23 +40,23 @@ impl RendererImpl {
     }
 
     fn point_is_inside(&self, point: Point2<i64>) -> bool {
-        point.x >= 0 && point.x < self.root.borrow().deref().width() as i64
-            && point.y >= 0 && point.y < self.root.borrow().deref().height() as i64
+        point.x >= 0 && point.x < self.root.borrow().width() as i64
+            && point.y >= 0 && point.y < self.root.borrow().height() as i64
     }
 }
 
 impl Renderer for RendererImpl {
     fn clear(&mut self) {
-        self.root.borrow_mut().deref_mut().clear();
+        self.root.borrow_mut().clear();
     }
 
     fn flush(&mut self) {
-        self.root.borrow_mut().deref_mut().flush();
+        self.root.borrow_mut().flush();
     }
 
     fn draw_char(&mut self, location: Point2<i64>, character: char) {
         match self.point_to_console(location) {
-            Some((x, y)) => self.root.borrow_mut().deref_mut().put_char(x, y, character, BackgroundFlag::Default),
+            Some((x, y)) => self.root.borrow_mut().put_char(x, y, character, BackgroundFlag::Default),
             None => (),
         }
     }

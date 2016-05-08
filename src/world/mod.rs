@@ -1,11 +1,11 @@
-extern crate nalgebra as na;
 pub mod entities;
 
+use nalgebra::Point2;
 use tcod::input::Key;
 use tcod::Console;
+
 use world::entities::*;
 use renderer::Renderer;
-use self::na::Point2;
 
 pub struct World {
     player: Player,
@@ -14,10 +14,9 @@ pub struct World {
 
 impl World {
     pub fn new() -> World {
-        let entities: Vec<Box<Entity>> = vec![Box::new(Rock::new(Point2::new(10, 5)))];
         World {
             player: Player::new(),
-            entities: entities,
+            entities: vec![Box::new(Rock::new(Point2::new(10, 5)))],
         }
     }
 
